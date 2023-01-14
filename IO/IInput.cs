@@ -2,6 +2,5 @@
 
 public interface IInput
 {
-    string Read();
-    
+    string? Read();
 }

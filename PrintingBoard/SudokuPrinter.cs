@@ -1,4 +1,6 @@
-﻿namespace Omega_Sudoku.PrintingBoard;
+﻿using Omega_Sudoku.IO;
+
+namespace Omega_Sudoku.PrintingBoard;
 
 public static class SudokuPrinter
 {
@@ -33,14 +35,14 @@ public static class SudokuPrinter
         }
 
         foreach (var row in _rows)
-            Console.WriteLine(string.Join("",
+            ConsoleOutput.GetInstance(string.Join("",
                 (from column in _cols
                     select Center((char.Parse(GridValues["" + row + column]) - '0').ToString(), width) +
                            (Array.Exists(lineCheckDig, element => element == (column - '0').ToString()) ? "|" : "")
                 )
                 .ToArray()) + (Array.Exists(lineCheckLet, element => element == row.ToString()) ? line : ""));
 
-        Console.WriteLine();
+        ConsoleOutput.GetInstance("");
         return GridValues;
     }
 }

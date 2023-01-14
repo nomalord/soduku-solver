@@ -122,9 +122,9 @@ internal class SudokuSolver
 
     
 
-    public void Test()
+    public void Test(string initialBoard)
     {
-        var hardest = "850002400720000009004000000000107002305000900040000000000080070017000000000036040";
+        // var hardest = "850002400720000009004000000000107002305000900040000000000080070017000000000036040";
         //hardest = "000006000059000008200008000045000000003000000006003054000325006000000000000000000";
 
         var start = DateTime.Now;
@@ -132,7 +132,7 @@ internal class SudokuSolver
         //{
         //    search(parse_grid(hardest));
         //}
-        var completeBoard = search(parse_grid(hardest, _Cells, _digits, _peers, _units));
+        var completeBoard = search(parse_grid(initialBoard, _Cells, _digits, _peers, _units));
         Console.WriteLine("Solving 'hardest' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
         print_board(completeBoard, _Cells, _sqrSize, _rows, _cols);
