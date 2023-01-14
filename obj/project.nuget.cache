@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EopnCnWQFixwZarXbqAX+YAtqe+n172HE+FTsUjm6X7WZ3DpdKbhi2VNQSrqyiD0H1SgPrY+69SXVwFWRGAfvw==",
+  "dgSpecHash": "s5wm0yoOVpv5OSpPoeR1E9KxlCFx5ApA3UqWcDditoxdkW1cOGPjNgTSlRKLJJZVHG+bbFbfKgjPCEWCWBrdXg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nkous\\RiderProjects\\Omega_Sudoku\\Omega_Sudoku.csproj",
+  "projectFilePath": "C:\\Users\\nkous\\Desktop\\omega\\soduku\\soduku-solver\\Omega_Sudoku.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

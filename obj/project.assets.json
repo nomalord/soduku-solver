@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nkous\\RiderProjects\\Omega_Sudoku\\Omega_Sudoku.csproj",
+      "projectUniqueName": "C:\\Users\\nkous\\Desktop\\omega\\soduku\\soduku-solver\\Omega_Sudoku.csproj",
       "projectName": "Omega_Sudoku",
-      "projectPath": "C:\\Users\\nkous\\RiderProjects\\Omega_Sudoku\\Omega_Sudoku.csproj",
+      "projectPath": "C:\\Users\\nkous\\Desktop\\omega\\soduku\\soduku-solver\\Omega_Sudoku.csproj",
       "packagesPath": "C:\\Users\\nkous\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nkous\\RiderProjects\\Omega_Sudoku\\obj\\",
+      "outputPath": "C:\\Users\\nkous\\Desktop\\omega\\soduku\\soduku-solver\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
