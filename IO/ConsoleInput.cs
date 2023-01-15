@@ -3,7 +3,7 @@
 public class ConsoleInput : AInput
 {
     static ConsoleInput _instance = new ConsoleInput();
-    public ConsoleInput()
+    private ConsoleInput()
     {
         _input = "";
     }

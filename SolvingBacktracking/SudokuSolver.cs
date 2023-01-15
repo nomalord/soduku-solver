@@ -24,6 +24,7 @@ internal class SudokuSolver
     private Dictionary<string, IGrouping<string, string[]>> _units;
     private int _sqrSize; //bool isSquare = result%1 == 0;
     private AOutput _output;
+    private Dictionary<string, string> board;
 
     public string[] cross(string wholeA, string wholeB)
     {
@@ -92,6 +93,8 @@ internal class SudokuSolver
                 into cellUnitGroup
                 select cellUnitGroup)
             .ToDictionary(g => g.Key, g => g.Distinct());
+
+        board = parse_grid(input._input, _Cells, _digits, _peers, _units);
     }
 
     /// <summary>Using depth-first search and propagation, try all possible GridValues.</summary>
@@ -137,10 +140,14 @@ internal class SudokuSolver
         //{
         //    search(parse_grid(hardest));
         //}
-        var completeBoard = search(parse_grid(initialBoard, _Cells, _digits, _peers, _units));
+        var completeBoard = search(board);
+        if(completeBoard == null)
+            throw new IllegalBoardException("Board is unsolvable");
         Console.WriteLine("Solving 'hardest' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
+        
         print_board(completeBoard, _Cells, _sqrSize, _rows, _cols, _output);
+        
 
         Console.WriteLine("Press enter to finish");
         Console.ReadLine();

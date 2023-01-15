@@ -1,6 +1,6 @@
 ﻿namespace Omega_Sudoku.Bitwise;
 
-public class BitwiseUtils
+public static class BitwiseUtils
 {
-    //TODO
+    
 }

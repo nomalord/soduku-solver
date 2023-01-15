@@ -43,6 +43,8 @@ public static class SudokuPrinter
                 .ToArray()) + (Array.Exists(lineCheckLet, element => element == row.ToString()) ? line : ""));
 
         output.Write("");
+        //Linq to print the values of GridValues
+        output.Write(string.Join(" ", (from cell in _Cells select GridValues[cell]).ToArray()));
         return GridValues;
     }
 }
