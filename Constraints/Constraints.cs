@@ -13,6 +13,11 @@ public static class Constraints
 
 
     /// <summary>Eliminate all the other GridValues (except DictValue) from GridValues[StringKey] and propagate &lt;= 2.</summary>
+    ///The assign function is a function that eliminates all other possible values for a given cell in the input
+    /// GridValues dictionary except for the input value DictValue, and propagates the changes to other cells in
+    /// the puzzle. It first calls the eliminate function for all other possible values of the given cell and returns
+    /// the input GridValues dictionary if all calls are successful. If any call returns null, it returns null as well,
+    /// indicating a contradiction.
     public static Dictionary<string, string>? assign(Dictionary<string, string> GridValues, string StringKey,
         string DictValue
         , Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)
@@ -28,6 +33,13 @@ public static class Constraints
     }
 
     /// <summary>Eliminate DictValue from GridValues[StringKey]; propagate when GridValues or places &lt;= 2.</summary>
+    /// The eliminate function is a function that eliminates a given value DictValue from the possible values of a cell
+    /// in the input GridValues dictionary, specified by the input StringKey. It first checks if the cell already contains
+    /// the value and proceeds to remove it from the cell's possible values. If this results in no possible values left
+    /// for the cell, it returns null indicating a contradiction. If there is only one possible value left for the cell,
+    /// it calls the eliminate function for that value on all the peers of the cell. Lastly, it iterates through all units
+    /// the cell belongs to and checks if the value can only appear in one cell in the unit and assigns it to that cell if
+    /// so. If any of the previous steps returns null, it also returns null indicating a contradiction.
     public static Dictionary<string, string>? eliminate(Dictionary<string, string> GridValues, string StringKey,
         string DictValue, Dictionary<string, IEnumerable<string>> _peers,
         Dictionary<string, IGrouping<string, string[]>> _units)
@@ -64,6 +76,14 @@ public static class Constraints
         return GridValues;
     }
 
+    /// <summary>
+    /// The all function is a helper function that takes an enumerable input of type T and returns a Boolean
+    /// indicating whether all elements in the sequence are non-null. This function is used in both assign
+    /// and eliminate functions to check if all calls to eliminate are successful.
+    /// </summary>
+    /// <param name="seq"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static bool all<T>(IEnumerable<T> seq)
     {
         foreach (var e in seq)
@@ -71,8 +91,6 @@ public static class Constraints
                 return false;
         return true;
     }
-
-
 //     hidden singles 
 //      public static Dictionary<string, string> SolveSingleStep(Dictionary<string, string> GridValues, 
 //          Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)

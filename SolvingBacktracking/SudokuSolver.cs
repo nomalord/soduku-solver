@@ -98,6 +98,12 @@ internal class SudokuSolver
     }
 
     /// <summary>Using depth-first search and propagation, try all possible GridValues.</summary>
+    /// The search function is a recursive function that attempts to solve a Sudoku puzzle represented
+    /// by the input GridValues, which is a dictionary containing the cell values of the puzzle.
+    /// The function first checks if the input is null or if all cells have only one possible value,
+    /// in which case it returns the input. If not, it selects the cell with the least number of possible
+    /// values and iterates through each possible value for that cell, calling the search function recursively
+    /// with the updated GridValues that includes the selected value for the chosen cell.
     public Dictionary<string, string> search(Dictionary<string, string> GridValues)
     {
         if (GridValues == null) return null; // Failed earlier
@@ -119,7 +125,15 @@ internal class SudokuSolver
         );
     }
     
-
+    /// <summary>
+    /// The some function is a helper function that takes an enumerable input of type T and returns
+    /// the first non-null element in the sequence. If all elements in the sequence are null,
+    /// it returns the default value for the type T. This function is used in the search function to return
+    /// the first non-null solution found among the recursive calls.
+    /// </summary>
+    /// <param name="seq"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public T some<T>(IEnumerable<T> seq)
     {
         foreach (var e in seq)

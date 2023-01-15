@@ -34,8 +34,7 @@ public class Program
                     case "File":
                     case "file":
                         initialBoard = FileInput.GetInstance();
-                        output = ConsoleOutput.GetInstance();
-                        //output = new FileOutput();
+                        output = FileOutput.GetInstance();
                         break;
                 
                 }
