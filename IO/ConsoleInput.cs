@@ -1,21 +1,19 @@
 ﻿namespace Omega_Sudoku.IO;
 
-public class ConsoleInput : IInput
+public class ConsoleInput : AInput
 {
-    private String Input { get; set; }
     static ConsoleInput _instance = new ConsoleInput();
-    private ConsoleInput()
+    public ConsoleInput()
     {
-        Input = "";
+        _input = "";
     }
-    public String? Read()
+    public override void Read()
     {
         Console.WriteLine("enter a sudoku Board:");
-        return Console.ReadLine();
+        _input = Console.ReadLine();
     }
-    public static String GetInstance()
+    public static ConsoleInput GetInstance()
     {
-        _instance.Input = _instance.Read();
-        return _instance.Input;
+        return _instance;
     }
 }

@@ -1,20 +1,17 @@
 ﻿namespace Omega_Sudoku.IO;
 
-public class ConsoleOutput : IOutput
+public class ConsoleOutput : AOutput
 {
-    private String Output { get; set;}
     static ConsoleOutput _instance = new ConsoleOutput();
     private ConsoleOutput()
     {
-        Output = "";
     }
-    public void Write()
+    public override void Write(string message)
     {
-        Console.WriteLine(Output);
+        Console.WriteLine(message);
     }
-    public static void GetInstance(string output)
+    public static ConsoleOutput GetInstance()
     {
-        _instance.Output = output;
-        _instance.Write();
+        return _instance;
     }
 }

@@ -17,7 +17,7 @@ public static class SudokuPrinter
 
     /// <summary>Used for debugging.</summary>
     public static Dictionary<string, string> print_board(Dictionary<string, string> GridValues, string[] _Cells, int _sqrSize
-    ,string _rows, string _cols)
+    ,string _rows, string _cols, AOutput output)
     {
         if (GridValues == null) return null;
 
@@ -35,14 +35,14 @@ public static class SudokuPrinter
         }
 
         foreach (var row in _rows)
-            ConsoleOutput.GetInstance(string.Join("",
+            output.Write(string.Join("",
                 (from column in _cols
                     select Center((char.Parse(GridValues["" + row + column]) - '0').ToString(), width) +
                            (Array.Exists(lineCheckDig, element => element == (column - '0').ToString()) ? "|" : "")
                 )
                 .ToArray()) + (Array.Exists(lineCheckLet, element => element == row.ToString()) ? line : ""));
 
-        ConsoleOutput.GetInstance("");
+        output.Write("");
         return GridValues;
     }
 }
