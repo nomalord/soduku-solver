@@ -1,7 +1,7 @@
 ﻿namespace Omega_Sudoku.IO;
 
 public class FileOutput : AOutput
-{
+{   
     private string Path { get; set; }
     static FileOutput? _instance = new FileOutput();
 
@@ -11,7 +11,7 @@ public class FileOutput : AOutput
 
     public override void Write(string message)
     {
-        using (StreamWriter writer = new StreamWriter(Path))  
+        using (StreamWriter writer = File.AppendText(Path))  
         {  
             writer.WriteLine(message);
         }

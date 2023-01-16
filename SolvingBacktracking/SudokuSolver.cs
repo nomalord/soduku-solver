@@ -111,7 +111,7 @@ public class SudokuSolver
         //    search(parse_grid(hardest));
         //}
         var completeBoard = Search(_board);
-        Console.WriteLine("'Solving' sudoku took on average " + (DateTime.Now - start).TotalMilliseconds +
+        _output.Write("'Solving' sudoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
         if (completeBoard == null)
             throw new IllegalBoardException("Board is unsolvable");
