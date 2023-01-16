@@ -19,7 +19,7 @@ public class Program
 
             Console.WriteLine("Please enter whether you want to input through console or file");
             AInput initialBoard = null;
-            AOutput output = null;
+            AOutput? output = null;
             switch (Console.ReadLine())
             {
                 case "console":

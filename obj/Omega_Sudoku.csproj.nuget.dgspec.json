@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nkous\\source\\repos\\test\\Omega_Sudoku.csproj": {}
+    "C:\\Users\\nkous\\source\\repos\\test - Copy\\Omega_Sudoku.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nkous\\source\\repos\\test\\Omega_Sudoku.csproj": {
+    "C:\\Users\\nkous\\source\\repos\\test - Copy\\Omega_Sudoku.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nkous\\source\\repos\\test\\Omega_Sudoku.csproj",
+        "projectUniqueName": "C:\\Users\\nkous\\source\\repos\\test - Copy\\Omega_Sudoku.csproj",
         "projectName": "Omega_Sudoku",
-        "projectPath": "C:\\Users\\nkous\\source\\repos\\test\\Omega_Sudoku.csproj",
+        "projectPath": "C:\\Users\\nkous\\source\\repos\\test - Copy\\Omega_Sudoku.csproj",
         "packagesPath": "C:\\Users\\nkous\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nkous\\source\\repos\\test\\obj\\",
+        "outputPath": "C:\\Users\\nkous\\source\\repos\\test - Copy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

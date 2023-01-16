@@ -13,3 +13,18 @@ C:\Users\nkous\source\repos\test\obj\Debug\net6.0\refint\Omega_Sudoku.dll
 C:\Users\nkous\source\repos\test\obj\Debug\net6.0\Omega_Sudoku.pdb
 C:\Users\nkous\source\repos\test\obj\Debug\net6.0\Omega_Sudoku.genruntimeconfig.cache
 C:\Users\nkous\source\repos\test\obj\Debug\net6.0\ref\Omega_Sudoku.dll
+C:\Users\nkous\source\repos\test - Copy\bin\Debug\net6.0\Omega_Sudoku.exe
+C:\Users\nkous\source\repos\test - Copy\bin\Debug\net6.0\Omega_Sudoku.deps.json
+C:\Users\nkous\source\repos\test - Copy\bin\Debug\net6.0\Omega_Sudoku.runtimeconfig.json
+C:\Users\nkous\source\repos\test - Copy\bin\Debug\net6.0\Omega_Sudoku.dll
+C:\Users\nkous\source\repos\test - Copy\bin\Debug\net6.0\Omega_Sudoku.pdb
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.csproj.AssemblyReference.cache
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.AssemblyInfoInputs.cache
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.AssemblyInfo.cs
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.csproj.CoreCompileInputs.cache
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.dll
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\refint\Omega_Sudoku.dll
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.pdb
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\Omega_Sudoku.genruntimeconfig.cache
+C:\Users\nkous\source\repos\test - Copy\obj\Debug\net6.0\ref\Omega_Sudoku.dll

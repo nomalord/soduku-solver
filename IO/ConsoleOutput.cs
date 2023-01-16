@@ -2,7 +2,7 @@
 
 public class ConsoleOutput : AOutput
 {
-    static ConsoleOutput _instance = new ConsoleOutput();
+    static ConsoleOutput? _instance = new ConsoleOutput();
     private ConsoleOutput()
     {
     }
@@ -10,7 +10,7 @@ public class ConsoleOutput : AOutput
     {
         Console.WriteLine(message);
     }
-    public static ConsoleOutput GetInstance()
+    public static ConsoleOutput? GetInstance()
     {
         return _instance;
     }
