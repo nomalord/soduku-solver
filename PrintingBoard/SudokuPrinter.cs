@@ -21,6 +21,11 @@ public static class SudokuPrinter
     {
         if (GridValues == null) return null;
 
+        if (output == null)
+        {
+            return string.Join("", (from cell in _Cells select GridValues[cell]).ToArray());
+        }
+
         var width = 1 + (from cell in _Cells
             select (char.Parse(GridValues[cell]) - '0').ToString().Length).Max();
         var line = "\n" + string.Join("+", Enumerable.Repeat(new string('-', width * _sqrSize), _sqrSize).ToArray());
@@ -45,6 +50,6 @@ public static class SudokuPrinter
         output.Write("");
         //Linq to print the values of GridValues
         output.Write(string.Join("", (from cell in _Cells select GridValues[cell]).ToArray()));
-        return string.Join(" ", (from cell in _Cells select GridValues[cell]).ToArray());
+        return string.Join("", (from cell in _Cells select GridValues[cell]).ToArray());
     }
 }

@@ -26,21 +26,36 @@ public class Program
                 case "Console":
                 case "terminal":
                 case "Terminal":
+                case "c":
                     initialBoard = ConsoleInput.GetInstance();
                     output = ConsoleOutput.GetInstance();
                     break;
                 case "File":
                 case "file":
+                case "f":
                     initialBoard = FileInput.GetInstance();
                     output = FileOutput.GetInstance();
                     break;
+                default:
+                    Console.WriteLine("Invalid input");
+                    continue;
 
             }
 
             SudokuSolver sudokuSolver = new SudokuSolver();
-            sudokuSolver.wrapper(initialBoard, output);
-
-            sudokuSolver.Solve(initialBoard._input);
+            if (! sudokuSolver.wrapper(initialBoard, output))
+            {
+                continue;
+            }
+            try
+            {
+                sudokuSolver.Solve();
+            }
+            catch (IllegalBoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
 
         }
     }
