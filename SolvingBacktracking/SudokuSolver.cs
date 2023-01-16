@@ -27,7 +27,7 @@ public class SudokuSolver
     private Dictionary<string, IEnumerable<string>> _peers;
     private Dictionary<string, IGrouping<string, string[]>> _units;
     private int _sqrSize; //bool isSquare = result%1 == 0;
-    private AOutput _output = ConsoleOutput.GetInstance();
+    private AOutput? _output = ConsoleOutput.GetInstance();
     private AInput _input = ConsoleInput.GetInstance();
     private Dictionary<string, string> board;
 
@@ -98,7 +98,7 @@ public class SudokuSolver
 
     
 
-    public string Solve()
+    public string? Solve()
     {
         // var hardest = "850002400720000009004000000000107002305000900040000000000080070017000000000036040";
         //hardest = "000006000059000008200008000045000000003000000006003054000325006000000000000000000";

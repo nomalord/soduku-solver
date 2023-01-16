@@ -3,7 +3,7 @@
 public class FileOutput : AOutput
 {
     private string _path { get; set; }
-    static FileOutput _instance = new FileOutput();
+    static FileOutput? _instance = new FileOutput();
 
     private FileOutput()
     {
@@ -16,7 +16,7 @@ public class FileOutput : AOutput
             writer.WriteLine(message);
         }
     }
-    public static FileOutput GetInstance()
+    public static FileOutput? GetInstance()
     {
         Console.WriteLine("enter a path to write to:");
         _instance._path = Console.ReadLine();
