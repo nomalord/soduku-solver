@@ -52,13 +52,13 @@ Go to the project directory
 ## Screenshots
 
 ![App Screenshot](https://i.imgur.com/zxVNBZr.png)
-input from console, outputs to console
+## input from console, outputs to console
 
 ![App Screenshot](https://i.imgur.com/jsCWfnJ.png)
-input from file, appends to file
+## input from file, appends to file
 
 ![App Screenshot](https://i.imgur.com/ey3QVp3.png)
-
+## exit the solver
 
 
 ## Running Tests
