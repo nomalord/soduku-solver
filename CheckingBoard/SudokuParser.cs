@@ -27,17 +27,18 @@ public static class SudokuParser
         }
         
 
-        var GridValues = _Cells.ToDictionary(s => s, s => _digits); //To start, every cell can be any digit
+        var gridValues = _Cells.ToDictionary(s => s, s => _digits); //To start, every cell can be any digit
 
-        foreach (var KeyValue in zip(_Cells, (from initialValue in grid
+        foreach (var keyValue in zip(_Cells, (from initialValue in grid
                      select initialValue.ToString()).ToArray()))
         {
-            var StringKey = KeyValue[0];
-            var DictValue = KeyValue[1];
+            var stringKey = keyValue[0];
+            var dictValue = keyValue[1];
 
-            if (_digits.Contains(DictValue) && StartConstraints(GridValues, StringKey, DictValue, _peers, _units) == null) return null;
+            if (_digits.Contains(dictValue) && StartConstraints(gridValues, stringKey, dictValue, _peers, _units) == null) return null;
         }
+        
 
-        return GridValues;
+        return gridValues;
     }
 }

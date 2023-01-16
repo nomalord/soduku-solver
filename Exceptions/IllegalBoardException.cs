@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Omega_Sudoku
 {
-    internal class IllegalBoardException : Exception
+    public class IllegalBoardException : Exception
     {
         public IllegalBoardException(string message) : base(message)
         {

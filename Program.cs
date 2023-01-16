@@ -41,9 +41,15 @@ public class Program
                     continue;
 
             }
-
             SudokuSolver sudokuSolver = new SudokuSolver();
-            if (! sudokuSolver.wrapper(initialBoard, output))
+            try
+            {
+                if (!sudokuSolver.Wrapper(initialBoard, output))
+                {
+                    continue;
+                }
+            }
+            catch (IllegalBoardCharacter e)
             {
                 continue;
             }

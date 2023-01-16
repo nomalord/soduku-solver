@@ -109,12 +109,11 @@ public class SudokuSolver
         //    search(parse_grid(hardest));
         //}
         var completeBoard = search(board);
-        if(completeBoard == null)
-            throw new IllegalBoardException("Board is unsolvable");
-        
-        Console.WriteLine("Solving 'hardest' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
+        Console.WriteLine("'Solving' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
-        
+        if (completeBoard == null)
+            throw new IllegalBoardException("Board is unsolvable");
+
         return print_board(completeBoard, _Cells, _sqrSize, _rows, _cols, _output);
         
     }
@@ -143,7 +142,7 @@ public class SudokuSolver
     /// <param name="input"></param>
     /// <param name="output"></param>
     /// <exception cref="IllegalBoardSize"></exception>
-    public bool wrapper(AInput? input, AOutput? output, string Input = "")
+    public bool Wrapper(AInput? input, AOutput? output, string Input = "")
     {
         try
         {
@@ -176,7 +175,7 @@ public class SudokuSolver
 
             _digits = _cols;
 
-            if (_cols == null) throw new IllegalBoardException("Invalid board size");
+            if (_cols == null) throw new IllegalBoardSize("Invalid board size");
             _Cells = cross(_rows, _cols);
 
             string[] rowString = new string[_sqrSize], columnString = new string[_sqrSize];
@@ -234,7 +233,7 @@ public class SudokuSolver
                 board = parse_grid(Input, _Cells, _digits, _peers, _units);
             return true;
         }
-
+        
         catch (IllegalBoardException e)
         {
             Console.WriteLine(e.Message);
@@ -244,6 +243,7 @@ public class SudokuSolver
         catch (IllegalBoardCharacter e)
         {
             Console.WriteLine(e.Message);
+            throw new IllegalBoardCharacter("");
             return false;
         }
         catch (IllegalBoardSize e)
