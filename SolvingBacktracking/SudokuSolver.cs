@@ -6,7 +6,7 @@ using static Omega_Sudoku.CheckingBoard.SudokuParser;
 
 namespace Omega_Sudoku;
 
-internal class SudokuSolver
+public class SudokuSolver
 {
     // Throughout this program we have:
     //   row is a row,    e.g. 'A'
@@ -23,7 +23,8 @@ internal class SudokuSolver
     private Dictionary<string, IEnumerable<string>> _peers;
     private Dictionary<string, IGrouping<string, string[]>> _units;
     private int _sqrSize; //bool isSquare = result%1 == 0;
-    private AOutput _output;
+    private AOutput _output = ConsoleOutput.GetInstance();
+    private AInput _input = ConsoleInput.GetInstance();
     private Dictionary<string, string> board;
 
     public string[] cross(string wholeA, string wholeB)
@@ -33,68 +34,17 @@ internal class SudokuSolver
             select "" + sliceA + sliceB).ToArray();
     }
 
-    public SudokuSolver(AInput input, AOutput output)
+
+    public SudokuSolver(string rows = null, string cols = null, string digits = null, string[] cells = null, Dictionary<string, IEnumerable<string>> peers = null, Dictionary<string, IGrouping<string, string[]>> units = null, int sqrSize = default, Dictionary<string, string> board = null)
     {
-        input.Read();
-        _output = output;
-        int boardSize = input._input.Length;
-        _sqrSize = Convert.ToInt32(Math.Sqrt(Math.Sqrt(boardSize)));
-
-        if (Convert.ToInt32(Math.Pow(_sqrSize, 4)) != boardSize)
-            throw new IllegalBoardSize("Board size must be a square of a square");
-        if (_sqrSize < 1)
-            throw new IllegalBoardSize("Board size must be at least 1x1");
-
-
-        _rows = new string(Enumerable.Range('A', Convert.ToInt32(Math.Pow(_sqrSize, 2))).Select(i => (char)i)
-            .ToArray());
-        _cols = new string(Enumerable.Range(1, Convert.ToInt32(Math.Pow(_sqrSize, 2))).Select(i => (char)(i + 48))
-            .ToArray());
-
-        _digits = _cols;
-
-        if (_cols == null) throw new IllegalBoardException("Invalid board size");
-        _Cells = cross(_rows, _cols);
-
-        string[] rowString = new string[_sqrSize], columnString = new string[_sqrSize];
-
-        char[] chars;
-
-        for (var i = 0; i < Math.Sqrt(_rows.Length); i++)
-        {
-            chars = _rows.Skip(i * _sqrSize).Take(_sqrSize).ToArray();
-            rowString[i] = new string(chars);
-
-            chars = _cols.Skip(i * _sqrSize).Take(_sqrSize).ToArray();
-            columnString[i] = new string(chars);
-        }
-
-        var unitlist = (from column in _cols
-                select cross(_rows, column.ToString()))
-            .Concat(from row in _rows
-                select cross(row.ToString(), _cols))
-            .Concat(from rowS in rowString
-                from columnS in columnString
-                select cross(rowS, columnS));
-
-        _units = (from cell in _Cells
-                from unit in unitlist
-                where unit.Contains(cell)
-                group unit by cell
-                into unitGroup
-                select unitGroup)
-            .ToDictionary(g => g.Key);
-
-        _peers = (from cell in _Cells
-                from unit in _units[cell]
-                from unitString in unit
-                where unitString != cell
-                group unitString by cell
-                into cellUnitGroup
-                select cellUnitGroup)
-            .ToDictionary(g => g.Key, g => g.Distinct());
-
-        board = parse_grid(input._input, _Cells, _digits, _peers, _units);
+        _rows = rows;
+        _cols = cols;
+        _digits = digits;
+        _Cells = cells;
+        _peers = peers;
+        _units = units;
+        _sqrSize = sqrSize;
+        this.board = board;
     }
 
     /// <summary>Using depth-first search and propagation, try all possible GridValues.</summary>
@@ -144,7 +94,7 @@ internal class SudokuSolver
 
     
 
-    public void Test(string initialBoard)
+    public string Solve(string initialBoard)
     {
         // var hardest = "850002400720000009004000000000107002305000900040000000000080070017000000000036040";
         //hardest = "000006000059000008200008000045000000003000000006003054000325006000000000000000000";
@@ -160,10 +110,86 @@ internal class SudokuSolver
         Console.WriteLine("Solving 'hardest' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
         
-        print_board(completeBoard, _Cells, _sqrSize, _rows, _cols, _output);
+        return print_board(completeBoard, _Cells, _sqrSize, _rows, _cols, _output);
         
+    }
 
-        Console.WriteLine("Press enter to finish");
-        Console.ReadLine();
+
+    public void wrapper(AInput input, AOutput output)
+    {
+        try
+        {
+            _input = input;
+            _output = output;
+            int boardSize = input._input.Length;
+            _sqrSize = Convert.ToInt32(Math.Sqrt(Math.Sqrt(boardSize)));
+
+            if (Convert.ToInt32(Math.Pow(_sqrSize, 4)) != boardSize)
+                throw new IllegalBoardSize("Board size must be a square of a square");
+            if (_sqrSize < 1)
+                throw new IllegalBoardSize("Board size must be at least 1x1");
+
+
+            _rows = new string(Enumerable.Range('A', Convert.ToInt32(Math.Pow(_sqrSize, 2))).Select(i => (char)i)
+                .ToArray());
+            _cols = new string(Enumerable.Range(1, Convert.ToInt32(Math.Pow(_sqrSize, 2))).Select(i => (char)(i + 48))
+                .ToArray());
+
+            _digits = _cols;
+
+            if (_cols == null) throw new IllegalBoardException("Invalid board size");
+            _Cells = cross(_rows, _cols);
+
+            string[] rowString = new string[_sqrSize], columnString = new string[_sqrSize];
+
+            char[] chars;
+
+            for (var i = 0; i < Math.Sqrt(_rows.Length); i++)
+            {
+                chars = _rows.Skip(i * _sqrSize).Take(_sqrSize).ToArray();
+                rowString[i] = new string(chars);
+
+                chars = _cols.Skip(i * _sqrSize).Take(_sqrSize).ToArray();
+                columnString[i] = new string(chars);
+            }
+
+            var unitlist = (from column in _cols
+                            select cross(_rows, column.ToString()))
+                .Concat(from row in _rows
+                        select cross(row.ToString(), _cols))
+                .Concat(from rowS in rowString
+                        from columnS in columnString
+                        select cross(rowS, columnS));
+
+            _units = (from cell in _Cells
+                      from unit in unitlist
+                      where unit.Contains(cell)
+                      group unit by cell
+                    into unitGroup
+                      select unitGroup)
+                .ToDictionary(g => g.Key);
+
+            _peers = (from cell in _Cells
+                      from unit in _units[cell]
+                      from unitString in unit
+                      where unitString != cell
+                      group unitString by cell
+                    into cellUnitGroup
+                      select cellUnitGroup)
+                .ToDictionary(g => g.Key, g => g.Distinct());
+
+            
+            board = parse_grid(input._input, _Cells, _digits, _peers, _units);
+        }
+
+        catch (IllegalBoardException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        catch (IllegalBoardCharacter e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

@@ -16,7 +16,7 @@ public static class SudokuPrinter
     }
 
     /// <summary>Used for debugging.</summary>
-    public static Dictionary<string, string> print_board(Dictionary<string, string> GridValues, string[] _Cells, int _sqrSize
+    public static string print_board(Dictionary<string, string> GridValues, string[] _Cells, int _sqrSize
     ,string _rows, string _cols, AOutput output)
     {
         if (GridValues == null) return null;
@@ -44,7 +44,7 @@ public static class SudokuPrinter
 
         output.Write("");
         //Linq to print the values of GridValues
-        output.Write(string.Join(" ", (from cell in _Cells select GridValues[cell]).ToArray()));
-        return GridValues;
+        output.Write(string.Join("", (from cell in _Cells select GridValues[cell]).ToArray()));
+        return string.Join(" ", (from cell in _Cells select GridValues[cell]).ToArray());
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Omega_Sudoku.CheckingBoard;
+﻿using System.ComponentModel;
+
+namespace Omega_Sudoku.CheckingBoard;
 using static Omega_Sudoku.Constraints.Constraints;
 
 public static class SudokuParser
@@ -16,9 +18,13 @@ public static class SudokuParser
     public static Dictionary<string, string> parse_grid(string grid, string[] _Cells, string _digits
     ,Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)
     {
-        var grid2 = from charDigit in grid
-            where _digits.Contains(charDigit)
-            select charDigit;
+        var grid2 = (from charDigit in grid
+            where (!_digits.Contains(charDigit))
+            select charDigit).Distinct().ToArray();
+        if (grid2.Length > 1)
+        {
+            throw new IllegalBoardCharacter("Illegal character in board");
+        }
         
 
         var GridValues = _Cells.ToDictionary(s => s, s => _digits); //To start, every cell can be any digit
