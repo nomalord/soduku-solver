@@ -2,20 +2,22 @@
 
 public class FileInput : AInput
 {
-    private string _path { get; set; }
-    static FileInput _instance = new FileInput();
+    private string Path { get; set; }
+    static FileInput? _instance = new FileInput();
+
     private FileInput()
     {
-        _input = "";
-        _path = "";
+        Input = "";
+        Path = "";
     }
+
     public override void Read()
     {
         Console.WriteLine("enter a file path to the sudoku board / boards:");
-        _path = Console.ReadLine();
+        Path = Console.ReadLine();
         try
         {
-            _input = File.ReadAllText(_path);
+            Input = File.ReadAllText(Path);
         }
         catch (IOException e)
         {
@@ -23,7 +25,8 @@ public class FileInput : AInput
             Read();
         }
     }
-    public static FileInput GetInstance()
+
+    public static FileInput? GetInstance()
     {
         return _instance;
     }

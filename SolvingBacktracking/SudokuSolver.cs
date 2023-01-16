@@ -20,18 +20,18 @@ public class SudokuSolver
     //      It is used to determine the size of the rows, columns, and sub-grids in the Sudoku board.
     //   AInput input, AOutput output: These are the input and output variables that are passed to the method.
     // They are used to read the input data and write the output data.
-    private string _rows;
-    private string _cols; //Enumerable.Range(30, 21).ToArray();
-    private string _digits; //Enumerable.Range(30, 21).ToArray();
-    private string[] _Cells;
-    private Dictionary<string, IEnumerable<string>> _peers;
-    private Dictionary<string, IGrouping<string, string[]>> _units;
+    private string? _rows;
+    private string? _cols; //Enumerable.Range(30, 21).ToArray();
+    private string? _digits; //Enumerable.Range(30, 21).ToArray();
+    private string[]? _cells;
+    private Dictionary<string, IEnumerable<string>>? _peers;
+    private Dictionary<string, IGrouping<string, string[]>>? _units;
     private int _sqrSize; //bool isSquare = result%1 == 0;
     private AOutput? _output = ConsoleOutput.GetInstance();
-    private AInput _input = ConsoleInput.GetInstance();
-    private Dictionary<string, string> board;
+    private AInput? _input = ConsoleInput.GetInstance();
+    private Dictionary<string, string>? _board;
 
-    public string[] cross(string wholeA, string wholeB)
+    public string[]? Cross(string? wholeA, string? wholeB)
     {
         return (from sliceA in wholeA
             from sliceB in wholeB
@@ -39,16 +39,18 @@ public class SudokuSolver
     }
 
 
-    public SudokuSolver(string rows = null, string cols = null, string digits = null, string[] cells = null, Dictionary<string, IEnumerable<string>> peers = null, Dictionary<string, IGrouping<string, string[]>> units = null, int sqrSize = default, Dictionary<string, string> board = null)
+    public SudokuSolver(string? rows = null, string? cols = null, string? digits = null,
+        string[]? cells = null, Dictionary<string, IEnumerable<string>>? peers = null, Dictionary<string,
+            IGrouping<string, string[]>>? units = null, int sqrSize = default, Dictionary<string, string>? board = null)
     {
         _rows = rows;
         _cols = cols;
         _digits = digits;
-        _Cells = cells;
+        _cells = cells;
         _peers = peers;
         _units = units;
         _sqrSize = sqrSize;
-        this.board = board;
+        this._board = board;
     }
 
     /// <summary>Using depth-first search and propagation, try all possible GridValues.</summary>
@@ -58,27 +60,28 @@ public class SudokuSolver
     /// in which case it returns the input. If not, it selects the cell with the least number of possible
     /// values and iterates through each possible value for that cell, calling the search function recursively
     /// with the updated GridValues that includes the selected value for the chosen cell.
-    public Dictionary<string, string> search(Dictionary<string, string> GridValues)
+    public Dictionary<string, string>? Search(Dictionary<string, string>? gridValues)
     {
-        if (GridValues == null) return null; // Failed earlier
-        if (all(from cell in _Cells
-                select GridValues[cell].Length == 1 ? "" : null))
-            return GridValues; // Solved!
+        if (gridValues == null) return null; // Failed earlier
+        if (All(from cell in _cells
+                select gridValues[cell].Length == 1 ? "" : null))
+            return gridValues; // Solved!
 
         // Choose the unfilled cell StringKey with the fewest possibilities
-        var LeastPossibilityCell = (from cell in _Cells
-            where GridValues[cell].Length > 1
-            orderby GridValues[cell].Length ascending
+        var leastPossibilityCell = (from cell in _cells
+            where gridValues[cell].Length > 1
+            orderby gridValues[cell].Length ascending
             select cell).First();
 
-        return some(from possibleValue in GridValues[LeastPossibilityCell]
-            select search(
-                StartConstraints(new Dictionary<string, string>(GridValues), LeastPossibilityCell, possibleValue.ToString(),
+        return Some(from possibleValue in gridValues[leastPossibilityCell]
+            select Search(
+                StartConstraints(new Dictionary<string, string>(gridValues), leastPossibilityCell,
+                    possibleValue.ToString(),
                     _peers, _units)
             )
         );
     }
-    
+
     /// <summary>
     /// The some function is a helper function that takes an enumerable input of type T and returns
     /// the first non-null element in the sequence. If all elements in the sequence are null,
@@ -88,7 +91,7 @@ public class SudokuSolver
     /// <param name="seq"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T some<T>(IEnumerable<T> seq)
+    public T? Some<T>(IEnumerable<T?> seq)
     {
         foreach (var e in seq)
             if (e != null)
@@ -96,7 +99,6 @@ public class SudokuSolver
         return default;
     }
 
-    
 
     public string? Solve()
     {
@@ -108,14 +110,13 @@ public class SudokuSolver
         //{
         //    search(parse_grid(hardest));
         //}
-        var completeBoard = search(board);
-        Console.WriteLine("'Solving' sodoku took on average " + (DateTime.Now - start).TotalMilliseconds +
+        var completeBoard = Search(_board);
+        Console.WriteLine("'Solving' sudoku took on average " + (DateTime.Now - start).TotalMilliseconds +
                           " milliseconds");
         if (completeBoard == null)
             throw new IllegalBoardException("Board is unsolvable");
 
-        return print_board(completeBoard, _Cells, _sqrSize, _rows, _cols, _output);
-        
+        return print_board(completeBoard, _cells, _sqrSize, _rows, _cols, _output);
     }
 
     /// <summary>
@@ -153,7 +154,7 @@ public class SudokuSolver
             if (input != null && output != null)
             {
                 input.Read();
-                boardSize = input._input.Length;
+                boardSize = input.Input.Length;
             }
             else
             {
@@ -176,7 +177,7 @@ public class SudokuSolver
             _digits = _cols;
 
             if (_cols == null) throw new IllegalBoardSize("Invalid board size");
-            _Cells = cross(_rows, _cols);
+            _cells = Cross(_rows, _cols);
 
             string[] rowString = new string[_sqrSize], columnString = new string[_sqrSize];
 
@@ -190,6 +191,7 @@ public class SudokuSolver
                 chars = _cols.Skip(i * _sqrSize).Take(_sqrSize).ToArray();
                 columnString[i] = new string(chars);
             }
+
             //a list of units that is generated by concatenating three different types of units:
             //
             // The rows: Each row is considered a unit and is represented by a list of cells that are in that row.
@@ -198,42 +200,42 @@ public class SudokuSolver
             //
             //     The sub-grids: Each sub-grid is considered a unit and is represented by a list of cells that are in that sub-grid.
             var unitlist = (from column in _cols
-                            select cross(_rows, column.ToString()))
+                    select Cross(_rows, column.ToString()))
                 .Concat(from row in _rows
-                        select cross(row.ToString(), _cols))
+                    select Cross(row.ToString(), _cols))
                 .Concat(from rowS in rowString
-                        from columnS in columnString
-                        select cross(rowS, columnS));
+                    from columnS in columnString
+                    select Cross(rowS, columnS));
 
             //A dictionary that maps each cell to a list of units that the cell belongs to.
-            _units = (from cell in _Cells
-                      from unit in unitlist
-                      where unit.Contains(cell)
-                      group unit by cell
+            _units = (from cell in _cells
+                    from unit in unitlist
+                    where unit.Contains(cell)
+                    group unit by cell
                     into unitGroup
-                      select unitGroup)
+                    select unitGroup)
                 .ToDictionary(g => g.Key);
 
             //holds a dictionary of peers for each cell,
             //where each peer is a cell that shares a unit with the original cell.
             //The peers are generated by grouping the cells in the units by the original cell.
 
-            _peers = (from cell in _Cells
-                      from unit in _units[cell]
-                      from unitString in unit
-                      where unitString != cell
-                      group unitString by cell
+            _peers = (from cell in _cells
+                    from unit in _units[cell]
+                    from unitString in unit
+                    where unitString != cell
+                    group unitString by cell
                     into cellUnitGroup
-                      select cellUnitGroup)
+                    select cellUnitGroup)
                 .ToDictionary(g => g.Key, g => g.Distinct());
 
             if (Input == "")
-                board = parse_grid(input._input, _Cells, _digits, _peers, _units);
+                _board = parse_grid(input.Input, _cells, _digits, _peers, _units);
             else
-                board = parse_grid(Input, _Cells, _digits, _peers, _units);
+                _board = parse_grid(Input, _cells, _digits, _peers, _units);
             return true;
         }
-        
+
         catch (IllegalBoardException e)
         {
             Console.WriteLine(e.Message);

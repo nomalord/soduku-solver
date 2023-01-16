@@ -2,6 +2,6 @@
 
 public abstract class AInput
 {
-    protected internal string? _input { get; set; }
+    protected internal string? Input { get; set; }
     public abstract void Read();
 }

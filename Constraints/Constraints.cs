@@ -4,11 +4,11 @@ public static class Constraints
 {
     //caller function to start the constraint checking, the function will call the other functions
     //classes outside of this class don't need to know the specifics, just need to call this function
-    public static Dictionary<string, string>? StartConstraints(Dictionary<string, string> GridValues, string StringKey,
-        string DictValue
-        , Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)
+    public static Dictionary<string, string>? StartConstraints(Dictionary<string, string> gridValues, string stringKey,
+        string dictValue
+        , Dictionary<string, IEnumerable<string>>? peers, Dictionary<string, IGrouping<string, string[]>>? units)
     {
-        return assign(GridValues, StringKey, DictValue, _peers, _units);
+        return Assign(gridValues, stringKey, dictValue, peers, units);
     }
 
 
@@ -18,17 +18,17 @@ public static class Constraints
     /// the puzzle. It first calls the eliminate function for all other possible values of the given cell and returns
     /// the input GridValues dictionary if all calls are successful. If any call returns null, it returns null as well,
     /// indicating a contradiction.
-    public static Dictionary<string, string>? assign(Dictionary<string, string> GridValues, string StringKey,
-        string DictValue
-        , Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)
+    public static Dictionary<string, string>? Assign(Dictionary<string, string> gridValues, string stringKey,
+        string dictValue
+        , Dictionary<string, IEnumerable<string>>? peers, Dictionary<string, IGrouping<string, string[]>>? units)
     {
-        if (all(
-                from digitNotStart in GridValues[StringKey]
-                where digitNotStart.ToString() != DictValue
-                select eliminate(GridValues, StringKey, digitNotStart.ToString(), _peers, _units)
+        if (All(
+                from digitNotStart in gridValues[stringKey]
+                where digitNotStart.ToString() != dictValue
+                select Eliminate(gridValues, stringKey, digitNotStart.ToString(), peers, units)
             )
            )
-            return GridValues;
+            return gridValues;
         return null;
     }
 
@@ -40,40 +40,40 @@ public static class Constraints
     /// it calls the eliminate function for that value on all the peers of the cell. Lastly, it iterates through all units
     /// the cell belongs to and checks if the value can only appear in one cell in the unit and assigns it to that cell if
     /// so. If any of the previous steps returns null, it also returns null indicating a contradiction.
-    public static Dictionary<string, string>? eliminate(Dictionary<string, string> GridValues, string StringKey,
-        string DictValue, Dictionary<string, IEnumerable<string>> _peers,
-        Dictionary<string, IGrouping<string, string[]>> _units)
+    public static Dictionary<string, string>? Eliminate(Dictionary<string, string> gridValues, string stringKey,
+        string dictValue, Dictionary<string, IEnumerable<string>>? peers,
+        Dictionary<string, IGrouping<string, string[]>>? units)
     {
-        if (!GridValues[StringKey].Contains(DictValue)) return GridValues;
-        GridValues[StringKey] = GridValues[StringKey].Replace(DictValue, "");
-        if (GridValues[StringKey].Length == 0)
+        if (!gridValues[stringKey].Contains(dictValue)) return gridValues;
+        gridValues[stringKey] = gridValues[stringKey].Replace(dictValue, "");
+        if (gridValues[stringKey].Length == 0)
         {
             return null; //Contradiction: removed last value
         }
-        else if (GridValues[StringKey].Length == 1)
+        else if (gridValues[stringKey].Length == 1)
         {
             //If there is only one value (LastValue) left in cell, remove it from _peers
-            var LastValue = GridValues[StringKey];
-            if (!all(from peer in _peers[StringKey]
-                    select eliminate(GridValues, peer, LastValue, _peers, _units)))
+            var lastValue = gridValues[stringKey];
+            if (!All(from peer in peers[stringKey]
+                    select Eliminate(gridValues, peer, lastValue, peers, units)))
                 return null;
         }
 
         //Now check the places where DictValue appears in the _units of StringKey
-        foreach (var unit in _units[StringKey])
+        foreach (var unit in units[stringKey])
         {
-            var ValuePlaces = from cell in unit
-                where GridValues[cell].Contains(DictValue)
+            var valuePlaces = from cell in unit
+                where gridValues[cell].Contains(dictValue)
                 select cell;
-            if (ValuePlaces.Count() == 0)
+            if (valuePlaces.Count() == 0)
                 return null;
-            else if (ValuePlaces.Count() == 1)
+            else if (valuePlaces.Count() == 1)
                 // DictValue can only be in one place in unit; assign it there
-                if (assign(GridValues, ValuePlaces.First(), DictValue, _peers, _units) == null)
+                if (Assign(gridValues, valuePlaces.First(), dictValue, peers, units) == null)
                     return null;
         }
 
-        return GridValues;
+        return gridValues;
     }
 
     /// <summary>
@@ -84,63 +84,11 @@ public static class Constraints
     /// <param name="seq"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static bool all<T>(IEnumerable<T> seq)
+    public static bool All<T>(IEnumerable<T> seq)
     {
         foreach (var e in seq)
             if (e == null)
                 return false;
         return true;
     }
-//     hidden singles 
-//      public static Dictionary<string, string> SolveSingleStep(Dictionary<string, string> GridValues, 
-//          Dictionary<string, IEnumerable<string>> _peers, Dictionary<string, IGrouping<string, string[]>> _units)
-//      {
-//          foreach (var unit in _units)
-//          {
-//              foreach (var unitList in unit)
-//              {
-//                  
-//              }
-//              var rowSolution = GetHiddenSingle(sudokuPuzzle, row.Cells);
-//              if (rowSolution != null)
-//                  return rowSolution;
-//          }
-//     
-//          foreach (var column in sudokuPuzzle.Columns)
-//          {
-//              var columnSolution = GetHiddenSingle(sudokuPuzzle, column.Cells);
-//              if (columnSolution != null)
-//                  return columnSolution;
-//          }
-//     
-//          foreach (var block in sudokuPuzzle.Blocks)
-//          {
-//              var blockSolution = GetHiddenSingle(sudokuPuzzle, block.Cells.OfType<Cell>().ToArray());
-//              if (blockSolution != null)
-//                  return blockSolution;
-//          }
-//     
-//          return null;
-//      }
-//     
-//     public static Dictionary<string, string> GetHiddenSingle(Dictionary<string, string> GridValues,
-//         Dictionary<string, IEnumerable<string>> _peers)
-//     {
-//         var cellsWithNoValue = GridValues.Where(x => x.Value.Length > 1).ToArray();
-//         var usedValues = GridValues.Where(x => x.Value.Length == 1).Select(x => x).ToArray();
-//     
-//         // if a possible value can only be in one cell, then it must be in that cell
-//         foreach (var possibleValue in _peers)
-//         {
-//             var possibleValueCount = cellsWithNoValue.Count(x => x.Value.Contains(possibleValue.Key));
-//             if (possibleValueCount == 1)
-//             {
-//                 var cell = cellsWithNoValue.First(x => x.Value.Contains(possibleValue.Key));
-//                 GridValues[cell.Key] = possibleValue.Key;
-//                 return GridValues;
-//             }
-//         }
-//         return null;
-//     }
-//     
 }

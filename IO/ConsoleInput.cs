@@ -2,17 +2,20 @@
 
 public class ConsoleInput : AInput
 {
-    static ConsoleInput _instance = new ConsoleInput();
+    static ConsoleInput? _instance = new ConsoleInput();
+
     private ConsoleInput()
     {
-        _input = "";
+        Input = "";
     }
+
     public override void Read()
     {
         Console.WriteLine("enter a sudoku Board:");
-        _input = Console.ReadLine();
+        Input = Console.ReadLine();
     }
-    public static ConsoleInput GetInstance()
+
+    public static ConsoleInput? GetInstance()
     {
         return _instance;
     }

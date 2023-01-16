@@ -2,7 +2,7 @@
 
 public class FileOutput : AOutput
 {
-    private string _path { get; set; }
+    private string Path { get; set; }
     static FileOutput? _instance = new FileOutput();
 
     private FileOutput()
@@ -11,7 +11,7 @@ public class FileOutput : AOutput
 
     public override void Write(string message)
     {
-        using (StreamWriter writer = new StreamWriter(_path))  
+        using (StreamWriter writer = new StreamWriter(Path))  
         {  
             writer.WriteLine(message);
         }
@@ -19,7 +19,7 @@ public class FileOutput : AOutput
     public static FileOutput? GetInstance()
     {
         Console.WriteLine("enter a path to write to:");
-        _instance._path = Console.ReadLine();
+        _instance.Path = Console.ReadLine();
         return _instance;
     }
 }
